@@ -7,13 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Bread } from 'src/app/core/models/bread.model';
-import {
-  CreateSupplier,
-  SupplierFormControls,
-  SupplierFormToCreateSupplier,
-  SupplierGetOne,
-  SupplierGetOneToSupplierForm,
-} from 'src/app/core/models/supplier.model';
+
 import { APIService } from 'src/app/core/services/api.service';
 import { MessageService } from 'src/app/core/services/message.service';
 import { UtilService } from 'src/app/core/services/util.service';
@@ -60,77 +54,77 @@ export class SupplierFormComponent {
       this.isLoading = true;
       this.isSubmitting = true;
 
-      const supplier = SupplierFormToCreateSupplier(this.supplierGroup.value);
+      // const supplier = SupplierFormToCreateSupplier(this.supplierGroup.value);
 
-      if (this.currentItemId) {
-        this.updateItem(supplier);
-      } else this.createItem(supplier);
+      // if (this.currentItemId) {
+      //   this.updateItem(supplier);
+      // } else this.createItem(supplier);
     }
   }
 
-  updateItem(supplier: CreateSupplier) {
-    this.apiService
-      .updateItem<SupplierGetOne>(supplier, 'suppliers')
-      .subscribe({
-        next: (_) => {
-          this.isLoading = false;
-          this.utilService.goBack();
-          this.messageService.publishMessage({
-            message: 'تم إنشاء بيانات المورد وحسابه البنكي بنجاح',
-            type: 'success',
-            duration: 3000,
-          });
-        },
+  // updateItem(supplier: CreateSupplier) {
+  //   this.apiService
+  //     .updateItem<SupplierGetOne>(supplier, 'suppliers')
+  //     .subscribe({
+  //       next: (_) => {
+  //         this.isLoading = false;
+  //         this.utilService.goBack();
+  //         this.messageService.publishMessage({
+  //           message: 'تم إنشاء بيانات المورد وحسابه البنكي بنجاح',
+  //           type: 'success',
+  //           duration: 3000,
+  //         });
+  //       },
 
-        error: (error) => {
-          this.isLoading = false;
-          this.isSubmitting = false;
+  //       error: (error) => {
+  //         this.isLoading = false;
+  //         this.isSubmitting = false;
 
-          console.log(
-            error,
-            ' submitting supplier error when creating supplier'
-          );
+  //         console.log(
+  //           error,
+  //           ' submitting supplier error when creating supplier'
+  //         );
 
-          this.messageService.publishMessage({
-            message: 'حصل خطأ عند انشاء المورد',
-            type: 'error',
-            duration: 3000,
-          });
-        },
-      });
-  }
+  //         this.messageService.publishMessage({
+  //           message: 'حصل خطأ عند انشاء المورد',
+  //           type: 'error',
+  //           duration: 3000,
+  //         });
+  //       },
+  //     });
+  // }
 
-  createItem(supplier: CreateSupplier) {
-    this.apiService
-      .createItem<SupplierGetOne>(supplier, 'suppliers')
-      .subscribe({
-        next: (_) => {
-          this.isLoading = false;
-          this.utilService.goBack();
-          this.messageService.publishMessage({
-            message: 'تم إنشاء بيانات المورد وحسابه البنكي بنجاح',
-            type: 'success',
-            duration: 3000,
-          });
-        },
+  // createItem(supplier: CreateSupplier) {
+  //   this.apiService
+  //     .createItem<SupplierGetOne>(supplier, 'suppliers')
+  //     .subscribe({
+  //       next: (_) => {
+  //         this.isLoading = false;
+  //         this.utilService.goBack();
+  //         this.messageService.publishMessage({
+  //           message: 'تم إنشاء بيانات المورد وحسابه البنكي بنجاح',
+  //           type: 'success',
+  //           duration: 3000,
+  //         });
+  //       },
 
-        error: (error) => {
-          this.isLoading = false;
-          this.isSubmitting = false;
+  //       error: (error) => {
+  //         this.isLoading = false;
+  //         this.isSubmitting = false;
 
-          console.log(
-            error,
-            ' submitting supplier error when creating supplier'
-          );
+  //         console.log(
+  //           error,
+  //           ' submitting supplier error when creating supplier'
+  //         );
 
-          this.messageService.publishMessage({
-            message: 'حصل خطأ عند انشاء المورد',
-            type: 'error',
-            duration: 3000,
-          });
-        },
-      });
-  }
+  //         this.messageService.publishMessage({
+  //           message: 'حصل خطأ عند انشاء المورد',
+  //           type: 'error',
+  //           duration: 3000,
+  //         });
+  //       },
+  //     });
+  // }
 
   stepOne(target: string) {
     return (this.supplierGroup.get('0') as FormGroup).controls[
@@ -145,7 +139,7 @@ export class SupplierFormComponent {
   }
 
   initForm() {
-    this.supplierGroup = this.fb.group<SupplierFormControls>({
+    this.supplierGroup = this.fb.group<any>({
       '0': this.fb.group({
         id: [null],
         name: [null, [Validators.required]],
@@ -185,12 +179,12 @@ export class SupplierFormComponent {
   }
 
   fetchDataAndMapIt(id: string) {
-    this.apiService.getOne<SupplierGetOne>(id, 'suppliers').subscribe((res) => {
-      this.supplierGroup.patchValue(SupplierGetOneToSupplierForm(res));
-      this.supplierGroup.updateValueAndValidity();
-      this.isStepValid();
-      this.isLoading = false;
-    });
+    // this.apiService.getOne<SupplierGetOne>(id, 'suppliers').subscribe((res) => {
+    //   this.supplierGroup.patchValue(SupplierGetOneToSupplierForm(res));
+    //   this.supplierGroup.updateValueAndValidity();
+    //   this.isStepValid();
+    //   this.isLoading = false;
+    // });
   }
 
   listenToStatues() {

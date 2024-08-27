@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Filter } from 'src/app/core/models/filter.model';
 import { LayoutOne } from 'src/app/core/models/layout-one.model';
 import { Pagination } from 'src/app/core/models/pagination.model';
 import { RequestQuery } from 'src/app/core/models/query.model';
@@ -18,7 +17,6 @@ export class LayoutOneComponent {
 
   @Output() fetchData = new EventEmitter<RequestQuery>();
 
-  currentFilters: Filter[] = [];
 
   // itemsSelected: Product[] = [];
 
@@ -44,30 +42,5 @@ export class LayoutOneComponent {
 
   onItemsSelected(items: any[]) {
     // this.itemsSelected = items;
-  }
-
-  addFilter(filter: Filter) {
-    this.currentFilters.push(filter);
-    this.updateFilters();
-  }
-
-  onRemoveFilter(index: number) {
-    this.currentFilters.splice(index, 1);
-    this.updateFilters();
-  }
-
-  updateFilters() {
-    this.query.filters = [];
-    this.query.filters.push(
-      ...this.currentFilters.map((el) => {
-        return {
-          field: el.field.id,
-          condition: el.condition.id,
-          value: el.value,
-        };
-      })
-    );
-
-    this.fetchData.emit(this.query);
   }
 }

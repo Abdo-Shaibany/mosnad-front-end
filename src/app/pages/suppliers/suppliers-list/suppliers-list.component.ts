@@ -3,7 +3,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { LayoutOne } from 'src/app/core/models/layout-one.model';
 import { RequestQuery } from 'src/app/core/models/query.model';
 import { ResponseList } from 'src/app/core/models/response-list.model';
-import { SupplierGetPaged } from 'src/app/core/models/supplier.model';
 import { APIService } from 'src/app/core/services/api.service';
 import { SignalService } from 'src/app/core/services/signal.service';
 import { UtilService } from 'src/app/core/services/util.service';
@@ -24,28 +23,6 @@ export class SuppliersListComponent implements OnInit {
       label: 'إضافة مورد +',
       textColor: 'text-white',
       bgColor: 'bg-red-600',
-    },
-    filter: {
-      fields: [
-        {
-          id: 'company',
-          text: 'النشاط التجاري',
-        },
-        {
-          id: 'company_address',
-          text: 'العنوان',
-        },
-      ],
-      conditions: [
-        {
-          id: 'equals',
-          text: 'يساوي',
-        },
-        {
-          id: 'not',
-          text: 'لا يساوي',
-        },
-      ],
     },
     table: {
       columns: [
@@ -107,7 +84,7 @@ export class SuppliersListComponent implements OnInit {
           items: [
             {
               type: 'text',
-              resolve: (item: SupplierGetPaged) => item.phone ?? ''
+              resolve: (item: any) => item.phone ?? ''
             },
           ],
         },
@@ -167,7 +144,7 @@ export class SuppliersListComponent implements OnInit {
     },
   };
 
-  listData: ResponseList<SupplierGetPaged> = {
+  listData: ResponseList<any> = {
     items: [],
     pagination: {
       totalItems: 10,
@@ -204,7 +181,7 @@ export class SuppliersListComponent implements OnInit {
   fetchData(query: RequestQuery): void {
     this.isLoading = true;
     this.apiService
-      .getPaged<SupplierGetPaged>(query, 'suppliers/getPaged')
+      .getPaged<any>(query, 'suppliers/getPaged')
       .subscribe({
         next: (data) => {
           this.listData = data;

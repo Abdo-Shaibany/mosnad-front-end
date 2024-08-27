@@ -12,90 +12,35 @@ import { UtilService } from 'src/app/core/services/util.service';
 export class MainSideMenuComponent implements OnDestroy {
   adminMenu: MenuGroupItem[] = [
     {
-      title: 'الموردين',
+      title: 'الإدارة',
       icon: 'assets/images/earth.svg',
-      link: 'suppliers-manager',
-      subLink: 'suppliers',
+      link: 'admin',
+      subLink: 'users',
       subMenu: [
         {
-          title: 'الموردين',
-          link: 'suppliers',
+          title: 'المستخدمين',
+          link: 'users',
         },
         {
-          title: 'المنتجات',
-          link: 'products',
-        },
-        {
-          title: 'توريد مخزني',
-          link: 'stock-purchases',
-        },
-        {
-          title: 'ربط المنتجات',
-          link: 'link-products',
-        },
-        {
-          title: 'المحفظة',
-          link: 'wallet',
-        },
-      ],
-    },
-    {
-      title: 'البائعين',
-      icon: 'assets/images/seller.svg',
-      link: 'sellers-manager',
-      subLink: 'sellers',
-      subMenu: [
-        {
-          title: 'البائعين',
-          link: 'sellers',
-        },
-        {
-          title: 'سجل الطلبات',
-          link: 'orders',
-        },
-        {
-          title: 'العملاء',
-          link: 'customers',
-        },
-      ],
-    },
-    {
-      title: 'التهيئة',
-      icon: 'assets/images/setup.svg',
-      link: 'setup-manager',
-      subLink: 'banks',
-      subMenu: [
-        {
-          title: 'البنوك',
-          link: 'banks',
-        },
-        {
-          title: 'العملات',
-          link: 'currencies',
-        },
-        {
-          title: 'مناطق البنوك',
-          link: 'banks-locations',
-        },
-        {
-          title: 'الفئات',
-          link: 'categories',
-        },
-        {
-          title: 'المخازن',
-          link: 'inventories',
+          title: 'الانشطة',
+          link: 'activities',
         },
       ],
     },
   ];
 
-  sellerMenu: MenuGroupItem[] = [
+  userMenu: MenuGroupItem[] = [
     {
-      title: 'كاتلوج المنتجات',
-      icon: 'assets/images/catalog.svg',
-      link: 'catalog-manager',
-      subLink: '',
-      subMenu: [],
+      title: 'المستخدم',
+      icon: 'assets/images/seller.svg',
+      link: 'admin',
+      subLink: 'profile',
+      subMenu: [
+        {
+          title: 'البروفايل',
+          link: 'profile',
+        },
+      ],
     },
   ];
 
@@ -121,13 +66,11 @@ export class MainSideMenuComponent implements OnDestroy {
         }
       });
 
-    this.authService.getUser()?.roles.forEach((el) => {
-      if (el.name === 'admin') {
-        this.menu = [...this.menu, ...this.adminMenu];
-      } else if (el.name === 'seller') {
-        this.menu = [...this.menu, ...this.sellerMenu];
-      }
-    })
+    if (this.authService.getUser()?.role!.name === 'admin') {
+      this.menu = this.adminMenu;
+    } else {
+      this.menu = this.userMenu;
+    }
   }
 
   getSubItems() {

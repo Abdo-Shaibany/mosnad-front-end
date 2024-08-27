@@ -27,8 +27,7 @@
             [isSubmitted]="isSubmitting"></app-input-text>
         </ng-container>
         <div *ngSwitchCase="'1'">
-          <app-input-select-entity url="banks" placeholder="حدد البنك" label="البنك" [control]="stepTwo('bankId')"
-            [isSubmitted]="isSubmitting"></app-input-select-entity>
+
           <div class="my-3"></div>
           <app-input-text [label]="'رقم الحساب البنكي'" [placeholder]="'ادخل رقم الحساب البنكي'"
             [key]="'supplier-account-number'" [control]="stepTwo('account_number')"
@@ -38,11 +37,9 @@
             [key]="'supplier-account-name'" [control]="stepTwo('account_name')"
             [isSubmitted]="isSubmitting"></app-input-text>
           <div class="my-3"></div>
-          <app-input-select-entity url="banks-currencies" placeholder="اختر عمله الحساب" label="عملة الحساب"
-            [control]="stepTwo('bank_currencyId')" [isSubmitted]="isSubmitting"></app-input-select-entity>
+
           <div class="my-3"></div>
-          <app-input-select-entity url="banks-locations" placeholder="اختر مكان الحساب" label="مكان الحساب"
-            [control]="stepTwo('bank_locationId')" [isSubmitted]="isSubmitting"></app-input-select-entity>
+
         </div>
       </ng-container>
     </div>

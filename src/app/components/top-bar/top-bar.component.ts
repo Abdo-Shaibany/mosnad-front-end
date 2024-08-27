@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
 import { UtilService } from '../../core/services/util.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { User } from 'src/app/core/models/user.model';
+import { User } from 'src/app/core/models/auth.model';
 
 @Component({
   selector: 'app-top-bar',
@@ -16,7 +16,7 @@ export class TopBarComponent {
 
   constructor(private utilService: UtilService, private authService: AuthService, private eRef: ElementRef) {
     this.user = this.authService.getUser();
-   }
+  }
   goHome() {
     this.utilService.gotoLink(['home']);
   }

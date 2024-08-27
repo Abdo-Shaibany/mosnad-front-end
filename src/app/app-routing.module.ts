@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ScaffoldOneComponent } from './layouts/scaffold-one/scaffold-one.component';
-import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
+import { userGuard } from './core/guards/user.guard';
 
 // TODO: add 404 page :)
 const routes: Routes = [
@@ -14,28 +15,30 @@ const routes: Routes = [
   {
     path: 'home',
     component: ScaffoldOneComponent,
-    canActivate: [authGuard],
     children: [
       {
-        path: 'users',
+        path: 'admin/users',
         loadChildren: () =>
           import('./pages/suppliers/suppliers.module').then(
             (m) => m.SuppliersModule
           ),
+        canActivate: [adminGuard]
       },
       {
-        path: 'activities',
+        path: 'admin/activities',
         loadChildren: () =>
           import('./pages/suppliers/suppliers.module').then(
             (m) => m.SuppliersModule
           ),
+        canActivate: [adminGuard]
       },
       {
-        path: 'profile',
+        path: 'admin/profile',
         loadChildren: () =>
           import('./pages/suppliers/suppliers.module').then(
             (m) => m.SuppliersModule
           ),
+        canActivate: [userGuard]
       },
     ],
   },
