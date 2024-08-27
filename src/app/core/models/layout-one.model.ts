@@ -4,6 +4,6 @@ import { Table } from './table.model';
 
 export interface LayoutOne {
   title: string;
-  mainAction: Action;
+  mainAction?: Action;
   table: Table;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { User } from 'src/app/core/models/auth.model';
 import { LayoutOne } from 'src/app/core/models/layout-one.model';
 import { RequestQuery } from 'src/app/core/models/query.model';
 import { ResponseList } from 'src/app/core/models/response-list.model';
@@ -15,47 +16,30 @@ export class SuppliersListComponent implements OnInit {
   unsubscribe$ = new Subject();
 
   meta: LayoutOne = {
-    title: 'الموردين',
-    mainAction: {
-      id: 'add-supplier',
-      type: 'goto',
-      link: ['home', 'suppliers-manager', 'suppliers', 'supplier-form'],
-      label: 'إضافة مورد +',
-      textColor: 'text-white',
-      bgColor: 'bg-red-600',
-    },
+    title: 'المستخدمين',
     table: {
       columns: [
         {
           key: 'id',
           label: 'ID',
-          isSortable: true,
-        },
-        {
-          key: 'name',
-          label: 'اسم المورد',
-          isSortable: true,
-        },
-        {
-          key: 'phone',
-          label: 'الهاتف',
-          isSortable: true,
-        },
-        {
-          key: 'company',
-          label: 'اسم النشاط',
-          isSortable: true,
-        },
-        {
-          key: 'company_address',
-          label: 'العنوان',
-          isSortable: true,
-        },
-        {
-          label: 'اجراء',
           isSortable: false,
-          class: 'justify-center',
         },
+        {
+          key: 'username',
+          label: 'اسم المستخدم',
+          isSortable: false,
+        },
+        {
+          key: 'gmail',
+          label: 'الإيميل',
+          isSortable: false,
+        },
+        {
+          key: 'role',
+          label: 'اسم الدور',
+          isSortable: false,
+        },
+
       ],
       meta: {
         isSelectable: true,
@@ -74,7 +58,7 @@ export class SuppliersListComponent implements OnInit {
           class: 'flex justify-start',
           items: [
             {
-              key: 'name',
+              key: 'username',
               type: 'text',
             },
           ],
@@ -84,7 +68,7 @@ export class SuppliersListComponent implements OnInit {
           items: [
             {
               type: 'text',
-              resolve: (item: any) => item.phone ?? ''
+              resolve: (item: User) => item.email ?? ''
             },
           ],
         },
@@ -92,54 +76,12 @@ export class SuppliersListComponent implements OnInit {
           class: 'flex justify-start',
           items: [
             {
-              key: 'company',
               type: 'text',
+              resolve: (item: User) => item.role?.name ?? ''
             },
           ],
         },
-        {
-          class: 'flex justify-start',
-          items: [
-            {
-              key: 'company_address',
-              type: 'text',
-            },
-          ],
-        },
-        {
-          class: 'flex justify-center',
-          items: [
-            {
-              key: '',
-              type: 'icon-action',
-              action: {
-                id: 'edit-supplier',
-                icon: 'edit',
-                link: ['suppliers-manager', 'suppliers', 'supplier-form'],
-                type: 'edit-form',
-              },
-            },
-            {
-              key: '',
-              type: 'icon-action',
-              action: {
-                id: 'view-supplier',
-                icon: 'eye',
-              },
-            },
-            {
-              key: '',
-              type: 'icon-action',
-              action: {
-                id: 'view-supplier',
-                icon: 'delete',
-                type: 'delete',
-                signals: ['suppliers-list'],
-                url: 'suppliers',
-              },
-            },
-          ],
-        },
+
       ],
     },
   };
@@ -160,12 +102,6 @@ export class SuppliersListComponent implements OnInit {
       pageSize: 10,
       currentPage: 0,
     },
-    sorts: [
-      {
-        key: 'updatedAt',
-        value: 'desc',
-      },
-    ],
   };
 
   ngOnInit(): void {
@@ -173,7 +109,7 @@ export class SuppliersListComponent implements OnInit {
     this.signalService.signal$.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (signal) => {
         if (!signal) return;
-        if (signal === 'suppliers-list') this.fetchData(this.query);
+        if (signal === 'users-list') this.fetchData(this.query);
       },
     });
   }
@@ -181,7 +117,7 @@ export class SuppliersListComponent implements OnInit {
   fetchData(query: RequestQuery): void {
     this.isLoading = true;
     this.apiService
-      .getPaged<any>(query, 'suppliers/getPaged')
+      .getPaged<any>(query, 'user/getPaged')
       .subscribe({
         next: (data) => {
           this.listData = data;
