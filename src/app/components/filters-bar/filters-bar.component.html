@@ -1,0 +1,24 @@
+<div class="flex space-x-2" *ngIf="filters.length > 0">
+  <div
+    class="inline-flex border-2 rounded-md bg-gray-400 px-2 py-1 space-x-2 items-center"
+    *ngFor="let filter of filters; let i = index"
+  >
+    {{ filter.field.text }} {{ filter.condition.text }} {{ filter.value }}
+    <div class="w-5 h-5 ms-2 cursor-pointer" (click)="onRemoveFilter.emit(i)">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+              stroke: #000;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-width: 2px;
+            }
+          </style>
+        </defs>
+        <g id="cross"><path class="cls-1" d="m7 7 18 18M7 25 25 7" /></g>
+      </svg>
+    </div>
+  </div>
+</div>

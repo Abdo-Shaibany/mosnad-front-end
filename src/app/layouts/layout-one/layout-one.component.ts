@@ -1,0 +1,73 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Filter } from 'src/app/core/models/filter.model';
+import { LayoutOne } from 'src/app/core/models/layout-one.model';
+import { Pagination } from 'src/app/core/models/pagination.model';
+import { RequestQuery } from 'src/app/core/models/query.model';
+import { ResponseList } from 'src/app/core/models/response-list.model';
+import { Sort } from 'src/app/core/models/sort.model';
+
+@Component({
+  selector: 'app-layout-one',
+  templateUrl: './layout-one.component.html',
+})
+export class LayoutOneComponent {
+  @Input({ required: true }) meta!: LayoutOne;
+  @Input({ required: true }) listData!: ResponseList<any>;
+  @Input({ required: true }) isLoading!: boolean;
+  @Input({ required: true }) query!: RequestQuery;
+
+  @Output() fetchData = new EventEmitter<RequestQuery>();
+
+  currentFilters: Filter[] = [];
+
+  // itemsSelected: Product[] = [];
+
+  sort?: Sort;
+  searchValue: string = '';
+
+  onPageChange(pagination: Pagination) {
+    this.query.pagination = pagination;
+    this.fetchData.emit(this.query);
+  }
+
+  onSearch(searchValue: string) {
+    this.searchValue = searchValue;
+    this.query.search = searchValue;
+    this.fetchData.emit(this.query);
+  }
+
+  onSort(sort?: Sort) {
+    this.sort = sort;
+    this.query.sorts = sort ? [sort] : [];
+    this.fetchData.emit(this.query);
+  }
+
+  onItemsSelected(items: any[]) {
+    // this.itemsSelected = items;
+  }
+
+  addFilter(filter: Filter) {
+    this.currentFilters.push(filter);
+    this.updateFilters();
+  }
+
+  onRemoveFilter(index: number) {
+    this.currentFilters.splice(index, 1);
+    this.updateFilters();
+  }
+
+  updateFilters() {
+    this.query.filters = [];
+    this.query.filters.push(
+      ...this.currentFilters.map((el) => {
+        return {
+          field: el.field.id,
+          condition: el.condition.id,
+          value: el.value,
+        };
+      })
+    );
+
+    this.fetchData.emit(this.query);
+  }
+}
