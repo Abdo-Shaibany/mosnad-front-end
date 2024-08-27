@@ -26,13 +26,15 @@ const routes: Routes = [
       {
         path: 'activities',
         loadChildren: () =>
-          import('./pages/wallet/wallet.module').then((m) => m.WalletModule),
+          import('./pages/suppliers/suppliers.module').then(
+            (m) => m.SuppliersModule
+          ),
       },
       {
         path: 'profile',
         loadChildren: () =>
-          import('./pages/products/products.module').then(
-            (m) => m.ProductsModule
+          import('./pages/suppliers/suppliers.module').then(
+            (m) => m.SuppliersModule
           ),
       },
     ],
