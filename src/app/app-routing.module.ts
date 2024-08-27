@@ -27,8 +27,8 @@ const routes: Routes = [
       {
         path: 'admin/activities',
         loadChildren: () =>
-          import('./pages/suppliers/suppliers.module').then(
-            (m) => m.SuppliersModule
+          import('./pages/activities/activities.module').then(
+            (m) => m.ActivitiesModule
           ),
         canActivate: [adminGuard]
       },
